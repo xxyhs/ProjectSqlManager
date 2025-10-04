@@ -1,0 +1,10 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+#app {
+  text-align: center;
+  padding: 10px;
+  color: #ff0000;
+}

@@ -1,0 +1,49 @@
+@host  = http://localhost:3000
+### 获取当前配置
+GET {{host}}/api/path/setting
+
+### 更新配置
+PUT {{host}}/api/path/setting
+Content-Type: application/json
+
+{
+  "dir": "D:\\Codes\\dotnetdev\\XTemplate\\SQLs"
+}
+
+### 获取SQL列表
+
+GET {{host}}/api/sql/list
+Content-Type: application/json
+
+
+### 更新SQL文件
+PUT {{host}}/api/sql/update
+Content-Type: application/json
+
+{
+  "code": "User.LogPrivilegeVersion",
+  "name": "记录权限修改记录",
+  "description": "更新角色权限时，记录权限修改记录",
+  "sqlContent": "INSERT INTO `privilege_versions` \r\n (`roleId`, `privileges`,`createTime`,`operatorId`) \r\n VALUES \r\n (@roleId, @privileges,now(), @operatorId)"
+}
+
+
+### 创建SQL文件
+POST {{host}}/api/sql/create
+Content-Type: application/json
+
+{
+  "code": "User.LogPrivilegeVersion",
+  "name": "记录权限修改记录",
+  "description": "更新角色权限时，记录权限修改记录",
+  "sqlContent": "INSERT INTO `privilege_versions` (`roleId`, `privileges`,`createTime`,`operatorId`) VALUES (@roleId, @privileges,now(), @operatorId)"
+}
+
+### 删除SQL文件
+DELETE {{host}}/api/sql/delete?code=User.LogPrivilegeVersion
+Content-Type: application/json
+
+### 获取目录列表
+
+GET {{host}}/api/dir/list
+Content-Type: application/json

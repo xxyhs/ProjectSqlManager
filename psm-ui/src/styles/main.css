@@ -1,0 +1,232 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  line-height: 22px;
+  box-sizing: border-box;
+}
+
+html, body, #app {
+  height: 100vh;
+  width: 100vw;
+  overflow: auto;
+}
+
+.main {
+  min-width: 980px;
+  position: relative;
+}
+
+.main > .navigator {
+  display: flex;
+  flex-direction: row;
+  background: #333;
+  color: #fff;
+  height: 64px;
+  padding: 0 16px;
+  align-items: center;
+  position: sticky;
+  z-index: 10;
+  top: 0;
+  width: 100%;
+  left: 0;
+}
+
+.navigator>.logo, .navigator>.dir  {
+  width: 20%;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.navigator>.dir {
+  display: flex;
+  flex-direction: row;
+}
+
+.navigator>.dir span {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.navigator>.search {
+  display: flex;
+  flex-direction: row;
+  width: 60%;
+  flex-shrink: 0;
+  justify-content: center;
+}
+
+.navigator>.search .el-input {
+  max-width: 480px;
+}
+
+.main > .content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main > .content .no-data {
+  line-height: 60px;
+  text-align: center;
+  color: #d4d4d4;
+}
+
+.main > .content > .add-btn {
+  position: fixed;
+  top: 84px;
+  right: max(12px, calc(50vw - 432px));
+  z-index: 30;
+}
+
+.sql-item-box {
+  background: rgba(45, 245, 96, 0.05);
+  padding: 12px;
+  position: relative;
+  min-width: 768px;
+}
+
+.sql-item-box .title{
+  color: #9c9c9c;
+  font-size: 12px;
+}
+
+.sql-item-box .code-block {
+  background: #22272e;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.sql-item-box .code-block .head {
+  display: flex;
+  justify-content: space-between;
+  color: #fff;
+  font-size: 12px;
+  padding: 0 12px;
+  align-items: center;
+}
+
+.mac-rgblight {
+  height: 18px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.mac-rgblight > .li {
+  display: inline-block;
+  line-height: 1;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  border: 1px solid #fff;
+}
+
+.mac-rgblight > .li + .li {
+  margin-left: 6px;
+}
+
+.sql-item-box .code-block .head .el-icon {
+  margin-top: 1px;
+}
+
+.sql-item-box .code-block .head span {
+  font-size: 12px;
+  line-height: 18px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.sql-item-box .title .code {
+  font-weight: bold;
+  color: #000;
+  font-size: 16px;
+  margin-right: 8px;
+}
+
+.sql-item-box > .desc {
+  color: #9c9c9c;
+}
+
+.sql-item-box > .actions {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+}
+
+.sql-item-box > .actions > .el-link + .el-link {
+  margin-left: 12px;
+}
+
+.sql-item-box + .sql-item-box {
+  margin-top: 12px;
+}
+
+.edit-form {
+  width: 0;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.4);
+  transition: all 0.4s ease;
+  overflow: hidden;
+}
+
+.edit-form.show{
+  width: 100%;
+}
+
+.edit-form > .modal {
+  width: 80%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #fff;
+  height: 100%;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.edit-form > .modal > .title {
+  font-size: 16px;
+  line-height: 32px;
+  font-weight: bold;
+}
+
+.edit-form > .modal > .field {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  margin-top: 12px;
+}
+
+.edit-form > .modal > .field > label {
+  font-weight: bold;
+  flex-shrink: 0;
+  margin-bottom: 4px;
+}
+
+.edit-form > .modal > .editor {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 60px;
+}
+
+.edit-form > .modal > .editor .editor-container {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 60px;
+}
+
+.edit-form > .modal > .field.actions {
+  flex-shrink: 0;
+  height: 64px;
+  flex-direction: row;
+}
