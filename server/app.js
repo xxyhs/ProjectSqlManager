@@ -5,9 +5,7 @@ const fs = require("fs");
 const { sendJSON, listSqls, parseJsonBody, stringEqual, listDir, openBrowser } = require("./utils");
 const serveFold= require('./staticfilehost');
 
-// replace after psm-ui built with ../psm-ui/dist
-const uiPath = path.join(__dirname, '../psm-ui/dist');
-// const uiPath = path.join(__dirname, '../static-files');
+const uiPath = process.env.NODE_ENV === 'production' ? path.join(__dirname, '../psm-ui/dist') : path.join(__dirname, '../static-files')
 
 let SQLsRoot = process.cwd();
 
@@ -96,12 +94,21 @@ const server = http.createServer(async (req, res) => {
           msg: 'code is existed!'
         })
         return
+      } else {
+        fs.mkdirSync(path.dirname(newFullPath), { recursive: true })
       }
     }
     if (oldFile) {
       fs.writeFileSync(newFullPath || fullPath, fullContent);
       if (newFullPath) {
         fs.unlinkSync(fullPath);
+        // 如果文件夹空了 删除空文件夹
+        if (path.dirname(fullPath) !== SQLsRoot) {
+          var subEntries = fs.readdirSync(path.dirname(fullPath), { withFileTypes: true });
+          if (subEntries.length === 0) {
+            fs.rmdirSync(path.dirname(fullPath))
+          }
+        }
       }
       sendJSON(res, 200, {
         msg: 'success'
@@ -142,6 +149,13 @@ const server = http.createServer(async (req, res) => {
     const oldFile = fs.statSync(fullPath, { throwIfNoEntry: false });
     if (oldFile) {
       fs.unlinkSync(fullPath)
+      // 如果文件夹空了 删除空文件夹
+      if (path.dirname(fullPath) !== SQLsRoot) {
+        var subEntries = fs.readdirSync(path.dirname(fullPath), { withFileTypes: true });
+        if (subEntries.length === 0) {
+          fs.rmdirSync(path.dirname(fullPath))
+        }
+      }
       sendJSON(res, 200, {
         msg: 'success'
       });
@@ -171,7 +185,7 @@ const server = http.createServer(async (req, res) => {
     }
   }
 })
-let PORT = 0
+const PORT = process.env.NODE_ENV === 'production' ? 0 : 3000
 server.listen(PORT, () => {
   const address = server.address();
   console.log(`Server running at http://localhost:${address.port}`)

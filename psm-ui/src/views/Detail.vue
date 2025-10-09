@@ -71,6 +71,10 @@ async function close () {
   emit('close', false)
 }
 
+function sqlCodeFilter () {
+  context.code = (context.code || '').replace(/[^\w\.]/g, '').replace(/\.+/g, '.').replace(/^\.+|\.+$/g, '')
+}
+
 onMounted(async () => {
   const monaco = await loader.init();
   editorInstance = monaco.editor.create(editorContainer.value, {
@@ -97,7 +101,7 @@ onBeforeUnmount(() => {
       <div class="field">
         <label>编号</label>
         <div>
-          <el-input type="text" v-model="context.code" placeholder="请输入SQL编号"></el-input>
+          <el-input type="text" v-model="context.code" placeholder="请输入SQL编号" @input="sqlCodeFilter"></el-input>
         </div>
       </div>
       <div class="field">
