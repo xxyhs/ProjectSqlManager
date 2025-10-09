@@ -40,6 +40,7 @@ html, body, #app {
 
 .navigator>.dir {
   display: flex;
+  justify-content: flex-end;
   flex-direction: row;
 }
 
@@ -47,6 +48,10 @@ html, body, #app {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+}
+
+.navigator>.dir .el-button {
+  padding-right: 0;
 }
 
 .navigator>.search {
