@@ -72,7 +72,12 @@ async function close () {
 }
 
 function sqlCodeFilter () {
-  context.code = (context.code || '').replace(/[^\w\.]/g, '').replace(/\.+/g, '.').replace(/^\.+|\.+$/g, '')
+  // 去除非数字字母下划线 和 连续点 头部的点
+  context.code = (context.code || '').replace(/[^\w\.]/g, '').replace(/\.+/g, '.').replace(/^\.+/, '')
+}
+
+function sqlCodeFilterAfterBlur () {
+  context.code = (context.code || '').replace(/[^\w\.]/g, '').replace(/\.+/g, '.').replace(/^\.+|\.$/g, '')
 }
 
 onMounted(async () => {
@@ -101,7 +106,7 @@ onBeforeUnmount(() => {
       <div class="field">
         <label>编号</label>
         <div>
-          <el-input type="text" v-model="context.code" placeholder="请输入SQL编号" @input="sqlCodeFilter"></el-input>
+          <el-input type="text" v-model="context.code" placeholder="请输入SQL编号" @input="sqlCodeFilter" @blur="sqlCodeFilterAfterBlur"></el-input>
         </div>
       </div>
       <div class="field">
