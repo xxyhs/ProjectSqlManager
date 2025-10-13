@@ -7,6 +7,7 @@ import { Plus, Search } from '@element-plus/icons-vue'
 import Item from './views/Item.vue';
 import Detail from './views/Detail.vue';
 import request from './utils/request';
+import LanguageSwitch from './views/LanguageSwitch.vue';
 defineComponent({
   components: {
     ElConfigProvider,
@@ -132,7 +133,7 @@ const props = {
           Project SQL Manager
         </div>
         <div class="search">
-          <el-input :prefix-icon="Search" type="text" v-model="keywordSerachValue" placeholder="名称编号过滤" @change="doFilter" size="large"></el-input>
+          <el-input :prefix-icon="Search" type="text" v-model="keywordSerachValue" :placeholder="$t('searchInputPlaceHolder')" @change="doFilter" size="large"></el-input>
         </div>
         <div v-if="isEditing" class="dir">
           <el-tree-select
@@ -149,7 +150,8 @@ const props = {
         </div>
         <div v-else class="dir">
           <span>{{ sqlStore.rootDir }}</span>
-          <el-button size="small" type="text"  @click="isEditing = true">修改</el-button>
+          <el-button size="small" type="text"  @click="isEditing = true">{{ $t('modify') }}</el-button>
+          <language-switch />
         </div>
       </div>
       <div class="content">
@@ -175,7 +177,7 @@ const props = {
           </item>
         </template>
         <div v-else class="no-data">
-          暂无数据
+          {{ $t('noData') }}
         </div>
       </div>
     </div>

@@ -1,8 +1,9 @@
 <script setup>
-import { defineProps, defineEmits, onMounted, onBeforeUnmount, ref, watch, reactive } from 'vue'
+import { defineProps, defineEmits, onMounted, onBeforeUnmount, ref, watch, reactive, getCurrentInstance } from 'vue'
 import loader from "@monaco-editor/loader";
 import { useSqlsStore } from '@/stores/sqls';
 
+const instance = getCurrentInstance();
 const loading = ref(false)
 const sqlStore = useSqlsStore()
 const props = defineProps({
@@ -47,6 +48,14 @@ watch(() => props.sqlItem, () => {
 
 async function doSubmit () {
   loading.value = true
+  try {
+    await checkModel()
+  } catch(err) {
+    loading.value = false
+    const i18next = instance.appContext.config.globalProperties.$i18next
+    ElMessage.error(i18next.t(err.message))
+    return
+  }
   if (props.sqlItem.code) {
     await sqlStore.UpdateSql({
       code: props.sqlItem.code,
@@ -96,38 +105,50 @@ onBeforeUnmount(() => {
   }
 })
 
+function checkModel () {
+  return new Promise((resolve, reject) => {
+    if (!context.code) {
+      reject(new Error('codeEmptyError'))
+    }
+    if (!editorInstance.getValue()) {
+      reject(new Error('contentEmptyError'))
+    }
+    resolve(true)
+  })
+}
+
 </script>
 <template>
   <div class="edit-form" :class="{ show: props.show }">
     <div class="modal" v-click-outside="close" v-loading="false">
       <div class="title">
-        {{ props.sqlItem.code ? `编辑${props.sqlItem.code}` : '新增SQL' }}
+        {{ props.sqlItem.code ? `${$t('editSql')}:${props.sqlItem.code}` : $t('addSql') }}
       </div>
       <div class="field">
-        <label>编号</label>
+        <label>{{ $t('code') }}</label>
         <div>
-          <el-input type="text" v-model="context.code" placeholder="请输入SQL编号" @input="sqlCodeFilter" @blur="sqlCodeFilterAfterBlur"></el-input>
+          <el-input type="text" v-model="context.code" :placeholder="$t('codePlaceholder')" @input="sqlCodeFilter" @blur="sqlCodeFilterAfterBlur"></el-input>
         </div>
       </div>
       <div class="field">
-        <label>名称</label>
+        <label>{{ $t('name') }}</label>
         <div>
-          <el-input type="text" v-model="context.name" placeholder="请输入SQL名称"></el-input>
+          <el-input type="text" v-model="context.name" :placeholder="$t('namePlaceholder')"></el-input>
         </div>
       </div>
       <div class="field">
-        <label>描述</label>
+        <label>{{ $t('description') }}</label>
         <div>
-          <el-input type="textarea" v-model="context.description" :rows="3" autoresize="none"></el-input>
+          <el-input type="textarea" v-model="context.description" :placeholder="$t('descriptionPlaceholder')" :rows="3" autoresize="none"></el-input>
         </div>
       </div>
       <div class="field editor">
-        <label>内容</label>
+        <label>{{ $t('sqlContent') }}</label>
         <div ref="editorContainer" class="editor-container"></div>
       </div>
       <div class="field actions">
-        <el-button type="primary" @click="doSubmit">确定</el-button>
-        <el-button @click="close">取消</el-button>
+        <el-button type="primary" @click="doSubmit">{{ $t('confirm') }}</el-button>
+        <el-button @click="close">{{ $t('cancel') }}</el-button>
       </div>
     </div>
   </div>

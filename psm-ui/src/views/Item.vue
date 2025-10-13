@@ -36,25 +36,25 @@ function dateTimeFormat (timestamp) {
   <div class="sql-item-box">
     <div class="actions">
       <el-link class="toggle-btn" style="cursor: pointer;" @click="emit('toggle', props.sqlItem.code)">
-        {{ props.expandedCode === props.sqlItem.code ? '收起' : '展开' }}
+        {{ props.expandedCode === props.sqlItem.code ? $t('collapse') : $t('expand') }}
         <el-icon>&nbsp;<ArrowUp v-if="props.expandedCode === props.sqlItem.code"/><ArrowDown v-else/></el-icon>
       </el-link>
       <el-link class="edit-btn" style="cursor: pointer;" @click="emit('edit', props.sqlItem)">
-        编辑&nbsp;<el-icon><Edit /></el-icon>
+        {{$t('edit')}}&nbsp;<el-icon><Edit /></el-icon>
       </el-link>
       <el-link class="edit-btn" style="cursor: pointer;" @click="emit('delete', props.sqlItem)">
-        删除&nbsp;<el-icon><Delete /></el-icon>
+        {{$t('delete')}}&nbsp;<el-icon><Delete /></el-icon>
       </el-link>
     </div>
     <div class="title">
       <span class="code">{{ props.sqlItem.code }}</span><span>{{ props.sqlItem.name }}</span>
     </div>
     <div class="desc">
-      <label>概要：</label><span>{{ props.sqlItem.description || '未设置' }}</span>
+      <label>{{$t('description')}}：</label><span>{{ props.sqlItem.description || $t('noDesc') }}</span>
     </div>
     <div v-show="props.expandedCode === props.sqlItem.code" class="desc" style="display: flex;">
-      <div><label>创建时间：</label><span>{{ dateTimeFormat(props.sqlItem.createTime) }}</span></div>
-      <div style="margin-left: 22px"><label>更新时间：</label><span>{{ dateTimeFormat(props.sqlItem.lastModifyTime) }}</span></div>     
+      <div><label>{{$t('createTime')}}：</label><span>{{ dateTimeFormat(props.sqlItem.createTime) }}</span></div>
+      <div style="margin-left: 22px"><label>{{$t('updateTime')}}：</label><span>{{ dateTimeFormat(props.sqlItem.lastModifyTime) }}</span></div>     
     </div>
     <div v-show="props.expandedCode === props.sqlItem.code" class="code-block">
       <div class="head">
