@@ -2,6 +2,7 @@
 import { defineProps, defineEmits, onMounted, onBeforeUnmount, ref, watch, reactive, getCurrentInstance } from 'vue'
 import loader from "@monaco-editor/loader";
 import { useSqlsStore } from '@/stores/sqls';
+import { format } from "sql-formatter";
 
 const instance = getCurrentInstance();
 const loading = ref(false)
@@ -91,11 +92,32 @@ function sqlCodeFilterAfterBlur () {
 
 onMounted(async () => {
   const monaco = await loader.init();
+  monaco.languages.registerDocumentFormattingEditProvider("sql", {
+    provideDocumentFormattingEdits (model) {
+      const formatted = format(model.getValue(), {
+        language: 'mysql',
+        keywordCase: 'upper',
+        indent: '  '
+      })
+      return [
+        {
+          range: model.getFullModelRange(),
+          text: formatted
+        }
+      ]
+    }
+  })
   editorInstance = monaco.editor.create(editorContainer.value, {
     value: context.sqlContent,
     language: "sql",
     theme: "vs-dark",
     automaticLayout: true
+  })
+  editorInstance.addAction({
+    id: "sql-format",
+    label: 'SQL Format',
+    keybindings: [monaco.KeyMod.Shift | monaco.KeyMod.Alt | monaco.KeyCode.KeyF],
+    run: (ed) => ed.getAction("editor.action.formatDocument").run(),
   })
 })
 
