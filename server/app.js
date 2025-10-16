@@ -11,14 +11,14 @@ let SQLsRoot = process.cwd();
 
 const server = http.createServer(async (req, res) => {
   // 静态文件挂账
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,OPTIONS,DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   const staticHost = serveFold(uiPath);
   const sendedFile = staticHost(req, res);
   if (sendedFile) {
     return;
   }
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,OPTIONS,DELETE");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   const url = new URL(req.url, `http://${req.headers.host}`)
   const contentType = req.headers["content-type"] || "application/octet-stream";
   if (stringEqual(contentType, 'application/json', false)) {
