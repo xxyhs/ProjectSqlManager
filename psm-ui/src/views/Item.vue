@@ -47,7 +47,10 @@ function dateTimeFormat (timestamp) {
       </el-link>
     </div>
     <div class="title">
-      <span class="code">{{ props.sqlItem.code }}</span><span>{{ props.sqlItem.name }}</span>
+      <span class="code">{{ props.sqlItem.code }}</span>
+    </div>
+    <div class="desc">
+      <span>{{ props.sqlItem.name }}</span>
     </div>
     <div class="desc">
       <label>{{$t('description')}}：</label><span>{{ props.sqlItem.description || $t('noDesc') }}</span>

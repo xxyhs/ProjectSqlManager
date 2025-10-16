@@ -90,7 +90,7 @@ html, body, #app {
   background: rgba(45, 245, 96, 0.05);
   padding: 12px;
   position: relative;
-  min-width: 768px;
+  width: 768px;
 }
 
 .sql-item-box .title{
