@@ -82,7 +82,7 @@ const server = http.createServer(async (req, res) => {
     }
     const fullPath = `${path.join(SQLsRoot, ...sqlInfo.code.split('.'))}.sql`;
     let newFullPath
-    const fullContent = `-- Name: ${sqlInfo.name}\n-- Description: ${sqlInfo.description}\n${sqlInfo.sqlContent}`;
+    const fullContent = `-- Name: ${sqlInfo.name}\r\n-- Description: ${sqlInfo.description}\r\n${sqlInfo.sqlContent}`;
     if (sqlInfo.newCode) {
       newFullPath = `${path.join(SQLsRoot, ...sqlInfo.newCode.split('.'))}.sql`;
     }
@@ -130,7 +130,7 @@ const server = http.createServer(async (req, res) => {
     } else {
       const dir = path.dirname(fullPath);
       fs.mkdirSync(dir, { recursive: true })
-      const fullContent = `-- Name: ${sqlInfo.name}\n-- Description: ${sqlInfo.description}\n${sqlInfo.sqlContent}`;
+      const fullContent = `-- Name: ${sqlInfo.name}\r\n-- Description: ${sqlInfo.description}\r\n${sqlInfo.sqlContent}`;
       fs.writeFileSync(fullPath, fullContent);
       sendJSON(res, 200, {
         msg: 'success'

@@ -84,6 +84,7 @@ function listSqls (dir, rootDir) {
       });
     }
   }
+  result.sort((a, b) => b.createTime - a.createTime)
   return result;
 }
 
