@@ -11,14 +11,14 @@ let SQLsRoot = process.cwd();
 
 const server = http.createServer(async (req, res) => {
   // 静态文件挂账
+  const staticHost = serveFold(uiPath);
+  const sendedFile = staticHost(req, res);
+  if (sendedFile || res.headersSent || res.writableEnded || !res.writable) {
+    return;
+  }
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,OPTIONS,DELETE");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  const staticHost = serveFold(uiPath);
-  const sendedFile = staticHost(req, res);
-  if (sendedFile) {
-    return;
-  }
   const url = new URL(req.url, `http://${req.headers.host}`)
   const contentType = req.headers["content-type"] || "application/octet-stream";
   if (stringEqual(contentType, 'application/json', false)) {
@@ -176,12 +176,12 @@ const server = http.createServer(async (req, res) => {
         msg: `dir list error`
       });
     }
-  }else {
+  } else {
     if (url.pathname.startsWith('/api')) {
       sendJSON(res, 404, { msg: 'Not Found' })
     } else {
-      res.writeHead(404);
-      res.end();
+      res.writeHead(404, { "Content-Type": "text/plain" });
+      res.end('Not Found');
     }
   }
 })
