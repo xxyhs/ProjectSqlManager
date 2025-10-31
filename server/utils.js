@@ -2,9 +2,14 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const { execSync, exec } = require('child_process');
-/// 判断字符串是否相等
+
+function isString (val) {
+  return typeof val === 'string' || val instanceof String
+}
+
 module.exports.stringEqual = (str1, str2, senstive = true) => {
-  if (senstive) return str1 === str2
+  if (!isString(str1) || !isString(str2)) return false
+  if (senstive) return str1.toString() === str2.toString()
   return (str1 || '').toLocaleLowerCase() === (str2 || '').toLocaleLowerCase()
 }
 
@@ -123,7 +128,7 @@ function getDrives() {
 
 function safeReadDir(dirPath) {
   try {
-    return fs.readdirSync(dirPath, { withFileTypes: true });
+    return fs.readdirSync(dirPath, { withFileTypes: true }).filter(t => t.isDirectory() && !t.name.startsWith('.'));
   } catch (err) {
     if (err.code === "EACCES" || err.code === "EPERM") {
       // 没权限，返回空数组
@@ -138,17 +143,16 @@ function listDir (dir) {
     return getDrives().map(t => ({
       name: t,
       fullPath: t,
-      hasChildren: safeReadDir(t).some(s => s.isDirectory())
+      hasChildren: safeReadDir(t).length > 0
     }))
   }
   const entries = safeReadDir(dir, { withFileTypes: true });
-  return entries.filter(entry => entry.isDirectory())
-    .map(entry => {
+  return entries.map(entry => {
       const fullPath = path.join(dir, entry.name)
       return {
         name: entry.name,
         fullPath,
-        hasChildren: safeReadDir(fullPath).some(s => s.isDirectory())
+        hasChildren: safeReadDir(fullPath).length > 0
       }
     });
 }

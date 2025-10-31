@@ -5,7 +5,7 @@
   "scripts": {
     "ui": "cd psm-ui && npm run dev",
     "ui.build": "cd psm-ui && npm run build",
-    "serve": "node server/app.js",
+    "serve": "node --watch-path=server --watch server/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
@@ -13,5 +13,5 @@
   },
   "author": "xiongkailing",
   "license": "ISC",
-  "description": "Project SQL Manager For XTemplate"
+  "description": "Project SQL Manager For Backend Development"
 }
