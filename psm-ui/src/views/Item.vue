@@ -51,11 +51,15 @@ function dateTimeFormat (timestamp) {
     </div>
     <div class="desc">
       <span>{{ props.sqlItem.name }}</span>
+      <span v-if="props.sqlItem.times > 1" class="repeated-count">
+        +{{props.sqlItem.times - 1}}
+        <span class="md5-span">{{ props.sqlItem.md5 }}&nbsp;<CopyBtn :content="props.sqlItem.md5" /></span>
+      </span>
     </div>
     <div class="desc">
       <label>{{$t('description')}}：</label><span>{{ props.sqlItem.description || $t('noDesc') }}</span>
     </div>
-    <div v-show="props.expandedCode === props.sqlItem.code" class="desc" style="display: flex;">
+    <div v-show="props.expandedCode === props.sqlItem.code" class="desc" style="display: flex; margin-bottom: 6px;">
       <div><label>{{$t('createTime')}}：</label><span>{{ dateTimeFormat(props.sqlItem.createTime) }}</span></div>
       <div style="margin-left: 22px"><label>{{$t('updateTime')}}：</label><span>{{ dateTimeFormat(props.sqlItem.lastModifyTime) }}</span></div>     
     </div>

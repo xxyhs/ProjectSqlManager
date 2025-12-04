@@ -170,6 +170,21 @@ html, body, #app {
   margin-top: 12px;
 }
 
+.repeated-count {
+  color: #ff0000;
+  font-size: 12px;
+}
+
+.md5-span {
+  display: none;
+  font-size: 12px;
+  color: #9d9d9d
+}
+
+.repeated-count:hover .md5-span {
+  display: inline;
+}
+
 .edit-form {
   width: 0;
   height: 100vh;

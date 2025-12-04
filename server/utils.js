@@ -1,6 +1,7 @@
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
+const { createHash } = require('crypto');
 const { execSync, exec } = require('child_process');
 
 function isString (val) {
@@ -77,6 +78,8 @@ function listSqls (dir, rootDir) {
           sqlContent += `${line}\n`
         }
       });
+      sqlContent = sqlContent.trimEnd();
+      const md5 = createHash('md5').update(sqlContent).digest('hex');
       result.push({
         fullPath,
         code,
@@ -85,7 +88,8 @@ function listSqls (dir, rootDir) {
         name,
         description,
         rawContent,
-        sqlContent: sqlContent.trimEnd()
+        sqlContent,
+        md5
       });
     }
   }

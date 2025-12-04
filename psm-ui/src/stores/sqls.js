@@ -1,6 +1,7 @@
 import { reactive, ref } from 'vue'
 import { defineStore } from 'pinia'
 import request from '@/utils/request'
+import _ from 'lodash'
 export const useSqlsStore = defineStore('Sqls', () => {
 
   const rootDir = ref('')
@@ -23,6 +24,9 @@ export const useSqlsStore = defineStore('Sqls', () => {
   async function ListSqls () {
     const resp = await request.get('/sql/list')
     sqls.splice(0)
+    resp.forEach(t => {
+      t.times = _.filter(resp, s => s.md5 === t.md5).length
+    })
     sqls.push(...resp)
   }
 

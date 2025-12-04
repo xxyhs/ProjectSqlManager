@@ -75,7 +75,8 @@ const doFilter = _.debounce(() => {
   loading.value = true
   filteredList.splice(0)
   filteredList.push(...sqlStore.sqls.filter(t => ~t.code.toLocaleLowerCase().indexOf((keywordSerachValue.value || '').toLocaleLowerCase()) 
-    || ~t.name.toLocaleLowerCase().indexOf((keywordSerachValue.value || '').toLocaleLowerCase())))
+    || ~t.name.toLocaleLowerCase().indexOf((keywordSerachValue.value || '').toLocaleLowerCase())
+    || ~t.md5.toLocaleLowerCase().indexOf((keywordSerachValue.value || '').toLocaleLowerCase())))
   loading.value = false
 }, 100, {
   leading: true,
@@ -149,8 +150,8 @@ const props = {
           <el-button size="small" type="text" @click="cancelEdit">取消</el-button>
         </div>
         <div v-else class="dir">
-          <span>{{ sqlStore.rootDir }}</span>
-          <el-button size="small" type="text"  @click="isEditing = true">{{ $t('modify') }}</el-button>
+          <span>{{$t('currentPath')}}:{{ sqlStore.rootDir }}</span>
+          <!-- <el-button size="small" type="text"  @click="isEditing = true">{{ $t('modify') }}</el-button> -->
           <language-switch />
         </div>
       </div>
